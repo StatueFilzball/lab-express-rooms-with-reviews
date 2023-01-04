@@ -65,4 +65,26 @@ router.post('/:id/delete', (req, res, next) => {
         .catch(err => console.log(err))
   });
 
+  router.get('/:id/write-review', (req, res, next) => {
+
+    const {id} = req.params
+
+  Room.findById(id)
+
+    .then(foundRoom => res.render('rooms/review-form', foundRoom))
+    .catch(err => console.log(err))
+  
+});
+
+
+//put the review in the database
+//mark the owner id on the review
+//add review to room database entry
+router.post('/:id/write-review', (req, res, next) => {
+
+    const {id} = req.params
+
+
+});
+
 module.exports = router;
