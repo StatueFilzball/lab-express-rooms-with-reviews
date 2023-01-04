@@ -1,0 +1,13 @@
+<h2>Overview of rooms</h2>
+
+{{#each rooms}}
+<p>{{name}}</p>
+<p>{{description}}</p>
+<img style="width: 150px" src="{{imageUrl}}" alt="">
+<br>
+<a href="/rooms/{{_id}}/edit"><button>Edit</button></a>
+<form action="/rooms/{{_id}}/delete" method="post">
+    <button type="submit">Delete</button>
+
+</form>
+{{/each}}

@@ -64,8 +64,11 @@ router.post('/login', (req, res) => {
         res.render("auth/login", {errorMessage: "Email is not registered. Try again."})
         return
     } else if(bcrypt.compareSync(password, user.password)) {
-        const { email } = user
-        req.session.currentUser = { email }
+        // const { email } = user
+        // req.session.currentUser = { email }
+        const { _id } = user
+        req.session.currentUser = { _id }
+        console.log("USER ID", req.session.currentUser)
         res.redirect("/auth/profile")
     }
     })
