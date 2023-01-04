@@ -1,0 +1,9 @@
+<h1>Create a room</h1>
+
+<form action="/rooms/create" method="post">
+    <input type="text" name="name" placeholder="Enter room name..." required>
+    <input type="text" name="description" placeholder="Enter description..." required>
+    <input type="text" name="imageUrl" placeholder="Enter image URL" required>
+    <input type="hidden" name="owner" value="{{_id}}">
+    <button type="submit">Create Room</button>
+</form>
