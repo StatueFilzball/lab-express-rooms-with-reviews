@@ -6,6 +6,10 @@ const Review = require('../models/Review.model')
 
 
 const { isLoggedIn } = require('../middleware');
+const { isOwner } = require('../middleware');
+const { isNotOwner } = require('../middleware');
+
+
 const { route } = require('./auth.routes');
 
 //create room route
@@ -31,7 +35,7 @@ router.post("/create", (req, res) => {
 
 
 
-router.get('/:id/edit', (req, res, next) => {
+router.get('/:id/edit', isOwner, (req, res, next) => {
 
       const {id} = req.params
 
@@ -67,7 +71,7 @@ router.post('/:id/delete', (req, res, next) => {
 
 
   //get the room review page
-  router.get('/:id/write-review', (req, res, next) => {
+  router.get('/:id/write-review', isLoggedIn, isNotOwner, (req, res, next) => {
 
     const {id} = req.params
 
@@ -85,7 +89,7 @@ router.post('/:id/delete', (req, res, next) => {
 router.post('/:id/write-review', (req, res, next) => {
 
     const {comment} = req.body
-    const userId = req.session.currentUser
+    const userId = req.session.currentUser._id
     const {roomId} = req.params
     console.log("USER ID", userId)
 
@@ -98,7 +102,7 @@ router.post('/:id/write-review', (req, res, next) => {
         .then((newReview) => {
             Room.findById(roomId)
                 .then((reviewedRoom) => {
-                    reviewedRoom.reviews.push(newReview._id)
+                    reviewedRoom.reviews.push(newReview._id) 
                     reviewedRoom.save()
                 })
                 .catch(err => console.log(err))

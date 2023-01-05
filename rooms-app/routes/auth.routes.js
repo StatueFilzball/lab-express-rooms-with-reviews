@@ -31,7 +31,8 @@ if(!regex.test(password)) {
     //creating the user in the DB after all checks
     User.create({email, password: passwordHash, fullName})
         .then((newUser) => {
-            req.session.currentUser = {email: newUser.email}
+            req.session.currentUser = {email: newUser.email, fullName}
+            console.log("REQ CURRENT USER",req.session.currentUser)
             res. redirect("/auth/profile")
         })
         .catch(err => console.log(err))
@@ -68,9 +69,9 @@ router.post('/login', (req, res) => {
         // req.session.currentUser = { email }
        
        
-        const { _id } = user
+        const { _id, fullName } = user
         req.session.currentUser = { _id }
-        console.log("USER ID", req.session.currentUser)
+        console.log("USER ID", user)
         res.redirect("/auth/profile")
     }
     })
@@ -79,7 +80,7 @@ router.post('/login', (req, res) => {
 
 //profile page
 router.get('/profile', (req, res) => {
-    console.log(req.session.currentUser)
+    console.log("REQ SESSION CURRENT USER", req.session.currentUser._id)
     res.render('auth/profile', req.session.currentUser)
 })
 
