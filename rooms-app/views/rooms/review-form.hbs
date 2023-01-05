@@ -2,6 +2,13 @@
 
 <form action="/rooms/{{_id}}/write-review" method="post">
     <input type="text" name="comment" placeholder="Write your review..." required>
-    <input type="hidden" name="user" value="{{req.session.currentUser._id}}">
+
+
     <button type="submit">Send Review</button>
 </form>
+
+
+
+
+
+

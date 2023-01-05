@@ -65,6 +65,8 @@ router.post('/:id/delete', (req, res, next) => {
         .catch(err => console.log(err))
   });
 
+
+  //get the room review page
   router.get('/:id/write-review', (req, res, next) => {
 
     const {id} = req.params
@@ -82,8 +84,27 @@ router.post('/:id/delete', (req, res, next) => {
 //add review to room database entry
 router.post('/:id/write-review', (req, res, next) => {
 
-    const {id} = req.params
+    const {comment} = req.body
+    const userId = req.session.currentUser
+    const {roomId} = req.params
+    console.log("USER ID", userId)
 
+    if (!comment) {
+        res.render('/:id/write-review', { errorMessage: 'Please write a comment before sending the form.' });
+        return;
+      }
+
+      Review.create({user: userId, comment})
+        .then((newReview) => {
+            Room.findById(roomId)
+                .then((reviewedRoom) => {
+                    reviewedRoom.reviews.push(newReview._id)
+                    reviewedRoom.save()
+                })
+                .catch(err => console.log(err))
+        })
+        .then(() => res.redirect('/rooms/all-rooms'))
+        .catch(err => console.log(err))
 
 });
 

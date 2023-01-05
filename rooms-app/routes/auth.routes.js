@@ -66,6 +66,8 @@ router.post('/login', (req, res) => {
     } else if(bcrypt.compareSync(password, user.password)) {
         // const { email } = user
         // req.session.currentUser = { email }
+       
+       
         const { _id } = user
         req.session.currentUser = { _id }
         console.log("USER ID", req.session.currentUser)
